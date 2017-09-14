@@ -29,4 +29,12 @@ public class Link {
         result = 31 * result + url.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }
