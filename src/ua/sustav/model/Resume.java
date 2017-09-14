@@ -9,4 +9,5 @@ public class Resume {
     String fullName;
     String location;
     List<Contact> contacts;
+    List<Section> sections;
 }
