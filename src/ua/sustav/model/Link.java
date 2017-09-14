@@ -12,6 +12,12 @@ public class Link {
         this.url = url;
     }
 
+    public Link(Link link) {
+
+        url = link.url;
+        name = link.name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
