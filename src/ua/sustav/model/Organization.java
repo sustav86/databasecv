@@ -7,5 +7,6 @@ import java.util.List;
  */
 public class Organization {
     private List<OrganizationPeriod> periods;
+    private Link link;
 
 }
