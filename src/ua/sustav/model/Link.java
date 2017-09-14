@@ -19,8 +19,8 @@ public class Link {
 
         Link link = (Link) o;
 
-        if (name != null ? !name.equals(link.name) : link.name != null) return false;
-        return url.equals(link.url);
+        if (!name.equals(link.name)) return false;
+        return url != null ? url.equals(link.url) : link.url == null;
     }
 
     @Override
