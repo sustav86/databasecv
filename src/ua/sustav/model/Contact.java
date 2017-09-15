@@ -1,7 +1,8 @@
 package ua.sustav.model;
 
 /**
- * Created by SUSTAVOV on 14.09.2017.
+ * Created by SUSTAVOV
+ *  on 14.09.2017.
  */
 public class Contact {
     private final String type;
