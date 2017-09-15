@@ -5,5 +5,6 @@ package ua.sustav.model;
  *  on 14.09.2017.
  */
 public class Section {
-    String type;
+    protected SectionType type;
+
 }
