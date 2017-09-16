@@ -8,7 +8,10 @@ import java.util.Collection;
  * Created by SUSTAVOV on 15.09.2017.
  */
 public class ArrayStorage implements IStorage {
-    private Resume[] array = new Resume[100];
+    private static final int LIMIT = 100;
+    private int size;
+
+    private Resume[] array = new Resume[LIMIT];
 
     @Override
     public void clear() {
