@@ -48,9 +48,7 @@ public class ArrayStorage implements IStorage {
                 array[i] = resume;
                 break;
             }
-
         }
-
     }
 
     @Override
