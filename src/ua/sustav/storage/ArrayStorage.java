@@ -2,8 +2,7 @@ package ua.sustav.storage;
 
 import ua.sustav.model.Resume;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by SUSTAVOV
@@ -13,7 +12,7 @@ public class ArrayStorage implements IStorage {
     private static final int LIMIT = 100;
     private int size;
 
-    private Resume[] array = new Resume[LIMIT];
+    protected Resume[] array = new Resume[LIMIT];
 
     @Override
     public void clear() {
@@ -66,21 +65,42 @@ public class ArrayStorage implements IStorage {
 
     @Override
     public void delete(String uuid) {
+        int idx = -1;
         for (int i = 0; i < size; i++) {
             if (array[i].getUuid().equals(uuid)) {
-
+                idx = i;
             }
+        }
+        if (idx != -1) {
+            System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
+            array[--size] = null;
         }
     }
 
     @Override
     public Collection<Resume> getAllSorted() {
-        Arrays.sort(array);
-        return Arrays.asList(array);
+        List<Resume> listOfResume = Arrays.asList(array);
+        listOfResume.sort((o1, o2) -> {
+            if (o1 != null && o2 != null) {
+                return o1.compareTo(o2);
+            }
+            return 0;
+        });
+
+        return listOfResume;
+
     }
 
     @Override
     public int size() {
-        return array.length;
+        return size;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayStorage{" +
+                "size=" + size +
+                ", array=" + Arrays.toString(array) +
+                '}';
     }
 }

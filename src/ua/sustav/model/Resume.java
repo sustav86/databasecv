@@ -8,7 +8,7 @@ import java.util.UUID;
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
     private String uuid;
     private String fullName;
     private String location;
@@ -71,5 +71,24 @@ public class Resume {
 
     public List<Section> getSections() {
         return sections;
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", location='" + location + '\'' +
+                ", homePage='" + homePage + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return fullName.compareTo(o.fullName);
+    }
+
+    public void setHomePage(String homePage) {
+        this.homePage = homePage;
     }
 }

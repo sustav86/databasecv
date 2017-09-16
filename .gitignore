@@ -1,5 +1,7 @@
 .idea
 *.iml
-test/*
+out
 
 
+test
+/test/ua/sustav/storage/ArrayStorageTest.java
