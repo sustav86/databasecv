@@ -10,6 +10,9 @@ import ua.sustav.model.ContactType;
 import ua.sustav.model.Resume;
 import ua.sustav.model.Section;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -17,10 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ArrayStorageTest {
     private static ArrayStorage arrayStorage = new ArrayStorage();
-    private static Resume R1, R2, R3;
+    private Resume R1, R2, R3;
 
     @BeforeAll
     static void initAll() {
+
+    }
+
+    @BeforeEach
+    void setUp() {
         R1 = new Resume("Sustavov Anton", "Kiev");
         R1.addContact(new Contact(ContactType.TELEPHON, "23232323"));
         R1.addSection(new Section());
@@ -30,10 +38,6 @@ class ArrayStorageTest {
         R3 = new Resume("Hitler", "Austria");
         R3.addContact(new Contact(ContactType.TELEPHON, "23232323"));
         R3.addSection(new Section());
-    }
-
-    @BeforeEach
-    void setUp() {
         arrayStorage.clear();
         arrayStorage.save(R1);
         arrayStorage.save(R2);
@@ -47,9 +51,10 @@ class ArrayStorageTest {
     @Test
     void clear() {
         arrayStorage.clear();
-        assertEquals(new DataBaseCVException(""), arrayStorage.load(R1.getUuid()));
-//        assertEquals(null, arrayStorage.load(R2.getUuid()));
-//        assertEquals(null, arrayStorage.load(R3.getUuid()));
+        assertEquals(0, arrayStorage.size());
+        assertThrows(DataBaseCVException.class, () -> arrayStorage.load(R1.getUuid()));
+        assertThrows(DataBaseCVException.class, () -> arrayStorage.load(R2.getUuid()));
+        assertThrows(DataBaseCVException.class, () -> arrayStorage.load(R3.getUuid()));
     }
 
     @Test
@@ -70,22 +75,22 @@ class ArrayStorageTest {
     @Test
     void load() {
         assertEquals(R3, arrayStorage.load(R3.getUuid()));
-        assertEquals(null, arrayStorage.load("xxxxxx"));
+        assertThrows(DataBaseCVException.class, () -> arrayStorage.load("xxxxxx"));
     }
 
-    @Test
+    @Test()
     void delete() {
-//        assertEquals(R3, arrayStorage.array[1]);
         arrayStorage.delete(R2.getUuid());
         assertEquals(2, arrayStorage.size());
-        assertEquals(null, arrayStorage.load(R2.getUuid()));
+        assertThrows(DataBaseCVException.class, () -> arrayStorage.load(R2.getUuid()));
         assertEquals(R3, arrayStorage.array[1]);
     }
 
     @Test
     void getAllSorted() {
-        arrayStorage.getAllSorted();
-        assertEquals(R3, arrayStorage.array[0]);
+        Resume[] src = new Resume[]{R3, R2, R1};
+        Collection<Resume> sorted = arrayStorage.getAllSorted();
+        assertArrayEquals(src, sorted.toArray());
     }
 
     @Test

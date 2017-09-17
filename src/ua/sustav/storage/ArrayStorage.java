@@ -59,7 +59,7 @@ public class ArrayStorage implements IStorage {
     public void delete(String uuid) {
         LOGGER.info("Delete resume with uuid = " + uuid);
         int idx = findIndex(uuid);
-        if (idx != -1) {
+        if (idx == -1) {
             throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
         }
         System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
@@ -68,7 +68,8 @@ public class ArrayStorage implements IStorage {
 
     @Override
     public Collection<Resume> getAllSorted() {
-        List<Resume> listOfResume = Arrays.asList(array);
+        LOGGER.info("Sorted array of resumes");
+        List<Resume> listOfResume = Arrays.asList(Arrays.copyOf(array, size));
         listOfResume.sort((o1, o2) -> {
             if (o1 != null && o2 != null) {
                 return o1.compareTo(o2);

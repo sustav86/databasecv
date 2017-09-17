@@ -1,7 +1,6 @@
 .idea
 *.iml
 out
-
-
 test
+.gitignore
 /test/ua/sustav/storage/ArrayStorageTest.java
