@@ -5,7 +5,7 @@ import ua.sustav.model.Resume;
 /**
  * Created by SUSTAVOV on 16.09.2017.
  */
-public class DataBaseCVException extends Exception {
+public class DataBaseCVException extends RuntimeException {
 
     private String uuid;
     private Resume resume;

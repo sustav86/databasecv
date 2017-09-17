@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ua.sustav.DataBaseCVException;
 import ua.sustav.model.Contact;
 import ua.sustav.model.ContactType;
 import ua.sustav.model.Resume;
@@ -46,9 +47,9 @@ class ArrayStorageTest {
     @Test
     void clear() {
         arrayStorage.clear();
-        assertEquals(null, arrayStorage.load(R1.getUuid()));
-        assertEquals(null, arrayStorage.load(R2.getUuid()));
-        assertEquals(null, arrayStorage.load(R3.getUuid()));
+        assertEquals(new DataBaseCVException(""), arrayStorage.load(R1.getUuid()));
+//        assertEquals(null, arrayStorage.load(R2.getUuid()));
+//        assertEquals(null, arrayStorage.load(R3.getUuid()));
     }
 
     @Test
