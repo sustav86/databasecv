@@ -4,85 +4,68 @@ import ua.sustav.DataBaseCVException;
 import ua.sustav.model.Resume;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Created by SUSTAVOV
  * on 15.09.2017.
  */
-public class ArrayStorage implements IStorage {
-    private static Logger LOGGER = Logger.getLogger(ArrayStorage.class.getName());
+public class ArrayStorage extends AbstractStorage {
     private static final int LIMIT = 100;
     private int size;
 
-    protected Resume[] array = new Resume[LIMIT];
+    private Resume[] array = new Resume[LIMIT];
 
     @Override
-    public void clear() {
-        LOGGER.info("Delete all resume");
+    protected void doClear() {
         Arrays.fill(array, null);
         size = 0;
     }
 
     @Override
-    public void save(Resume resume) {
-        LOGGER.info("Save resume uuid = " + resume.getUuid());
+    protected boolean isExist(String uuid) {
+        return findIndex(uuid) != -1;
+    }
+
+    @Override
+    protected void doSave(Resume resume) {
         checkCapacity(size);
-        int idx = findIndex(resume.getUuid());
-        if (idx != -1) {
-            throw new DataBaseCVException("Resume has already present uuid = " + resume.getUuid(), resume);
-        }
         array[size++] = resume;
     }
 
     @Override
-    public void update(Resume resume) {
-        LOGGER.info("Update resume with uuid = " + resume.getUuid());
+    protected void doUpdate(Resume resume) {
         int idx = findIndex(resume.getUuid());
-        if (idx == -1) {
-            throw new DataBaseCVException("Resume with uuid = " + resume.getUuid() + " is't exist", resume);
-        }
         array[idx] = resume;
     }
 
     @Override
-    public Resume load(String uuid) {
-        LOGGER.info("Load resume with uuid = " + uuid);
+    protected Resume doLoad(String uuid) {
         int idx = findIndex(uuid);
-        if (idx == -1) {
-            throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
-        }
         return array[idx];
     }
 
     @Override
-    public void delete(String uuid) {
-        LOGGER.info("Delete resume with uuid = " + uuid);
+    protected void doDelete(String uuid) {
         int idx = findIndex(uuid);
-        if (idx == -1) {
-            throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
-        }
         System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
         array[--size] = null;
     }
 
     @Override
-    public Collection<Resume> getAllSorted() {
-        LOGGER.info("Sorted array of resumes");
+    protected List<Resume> doSorted() {
         List<Resume> listOfResume = Arrays.asList(Arrays.copyOf(array, size));
-        listOfResume.sort((o1, o2) -> {
-            if (o1 != null && o2 != null) {
-                return o1.compareTo(o2);
-            }
-            return 0;
-        });
+//        listOfResume.sort((o1, o2) -> {
+//            if (o1 != null && o2 != null) {
+//                return o1.compareTo(o2);
+//            }
+//            return 0;
+//        });
 
         return listOfResume;
-
     }
 
     @Override
-    public int size() {
+    protected int doSize() {
         return size;
     }
 

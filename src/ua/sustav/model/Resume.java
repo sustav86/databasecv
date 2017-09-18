@@ -16,6 +16,9 @@ public class Resume implements Comparable<Resume> {
     private List<Contact> contacts = new LinkedList<>();
     private List<Section> sections = new LinkedList<>();
 
+    public Resume() {
+    }
+
     public Resume(String fullName, String location) {
         this(UUID.randomUUID().toString(), fullName, location);
     }
