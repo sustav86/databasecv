@@ -64,7 +64,7 @@ public abstract class AbstractStorage implements IStorage {
         doDelete(uuid);
     }
 
-    protected abstract Resume doDelete(String uuid);
+    protected abstract void doDelete(String uuid);
 
     @Override
     public Collection<Resume> getAllSorted() {
