@@ -66,8 +66,8 @@ public class Resume implements Comparable<Resume> {
         return homePage;
     }
 
-    public Map<ContactType, String> getContacts() {
-        return contacts;
+    public String getContact(ContactType type) {
+        return contacts.get(type);
     }
 
     public List<Section> getSections() {
