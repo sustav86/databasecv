@@ -27,29 +27,29 @@ public class ArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isExist(Integer ctx) {
-        return ctx != -1;
+    protected boolean isExist(Integer idx) {
+        return idx != -1;
     }
 
     @Override
-    protected void doSave(Integer ctx, Resume resume) {
+    protected void doSave(Integer idx, Resume resume) {
         checkCapacity(size);
         array[size++] = resume;
     }
 
     @Override
-    protected void doUpdate(Integer ctx, Resume resume) {
-        array[ctx] = resume;
+    protected void doUpdate(Integer idx, Resume resume) {
+        array[idx] = resume;
     }
 
     @Override
-    protected Resume doLoad(Integer ctx) {
-        return array[ctx];
+    protected Resume doLoad(Integer idx) {
+        return array[idx];
     }
 
     @Override
-    protected void doDelete(Integer ctx) {
-        System.arraycopy(array, ctx + 1, array, ctx, size - ctx - 1);
+    protected void doDelete(Integer idx) {
+        System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
         array[--size] = null;
     }
 
