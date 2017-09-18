@@ -19,7 +19,7 @@ public class ArrayStorage implements IStorage {
 
     @Override
     public void clear() {
-        LOGGER.info("Delete all resume");
+        LOGGER.info("Delete all resumes");
         Arrays.fill(array, null);
         size = 0;
     }
