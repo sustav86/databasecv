@@ -7,8 +7,13 @@ import java.util.*;
 /**
  * Created by SUSTAVOV on 18.09.2017.
  */
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<String> {
     private Map<String, Resume> mapOfResume = new HashMap<>();
+
+    @Override
+    protected String getContext(String uuid) {
+        return uuid;
+    }
 
     @Override
     protected void doClear() {
@@ -21,13 +26,13 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume) {
-        mapOfResume.put(resume.getUuid(), resume);
+    protected void doSave(String uuid, Resume resume) {
+        mapOfResume.put(uuid, resume);
     }
 
     @Override
-    protected void doUpdate(Resume resume) {
-        mapOfResume.put(resume.getUuid(), resume);
+    protected void doUpdate(String uuid, Resume resume) {
+        mapOfResume.put(uuid, resume);
     }
 
     @Override

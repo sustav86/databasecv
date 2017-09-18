@@ -9,11 +9,16 @@ import java.util.*;
  * Created by SUSTAVOV
  * on 15.09.2017.
  */
-public class ArrayStorage extends AbstractStorage {
+public class ArrayStorage extends AbstractStorage<Integer> {
     private static final int LIMIT = 100;
     private int size;
 
     private Resume[] array = new Resume[LIMIT];
+
+    @Override
+    protected Integer getContext(String uuid) {
+        return findIndex(uuid);
+    }
 
     @Override
     protected void doClear() {
@@ -22,34 +27,32 @@ public class ArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(String uuid) {
-        return findIndex(uuid) != -1;
+    protected boolean isExist(Integer idx) {
+        return idx != -1;
     }
 
     @Override
-    protected void doSave(Resume resume) {
+    protected void doSave(Integer idx, Resume resume) {
         checkCapacity(size);
         array[size++] = resume;
     }
 
     @Override
-    protected void doUpdate(Resume resume) {
-        int idx = findIndex(resume.getUuid());
+    protected void doUpdate(Integer idx, Resume resume) {
         array[idx] = resume;
     }
 
     @Override
-    protected Resume doLoad(String uuid) {
-        int idx = findIndex(uuid);
+    protected Resume doLoad(Integer idx) {
         return array[idx];
     }
 
     @Override
-    protected void doDelete(String uuid) {
-        int idx = findIndex(uuid);
+    protected void doDelete(Integer idx) {
         System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
         array[--size] = null;
     }
+
 
     @Override
     protected List<Resume> doSorted() {

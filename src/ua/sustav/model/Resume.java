@@ -12,7 +12,7 @@ public class Resume implements Comparable<Resume> {
     private String location;
     private String homePage;
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private List<Section> sections = new LinkedList<>();
+    private Map<SectionType, String> sections = new EnumMap<>(SectionType.class);
 
     public Resume() {
     }
@@ -42,8 +42,8 @@ public class Resume implements Comparable<Resume> {
         return uuid.hashCode();
     }
 
-    public void addSection(Section section) {
-        sections.add(section);
+    public void addSection(SectionType type, String section) {
+        sections.put(type, section);
     }
 
     public void addContact(ContactType type, String contact) {
@@ -70,8 +70,8 @@ public class Resume implements Comparable<Resume> {
         return contacts.get(type);
     }
 
-    public List<Section> getSections() {
-        return sections;
+    public String getSection(SectionType type) {
+        return sections.get(type);
     }
 
     @Override
