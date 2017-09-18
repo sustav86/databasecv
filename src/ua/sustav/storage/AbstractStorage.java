@@ -11,8 +11,10 @@ import java.util.logging.Logger;
 /**
  * Created by SUSTAVOV on 18.09.2017.
  */
-public abstract class AbstractStorage implements IStorage {
+public abstract class AbstractStorage<E> implements IStorage {
     protected static Logger logger = Logger.getLogger(ArrayStorage.class.getName());
+
+    protected abstract E getContext(String uuid);
 
     @Override
     public void clear() {
@@ -22,51 +24,55 @@ public abstract class AbstractStorage implements IStorage {
 
     protected abstract void doClear();
 
-    protected abstract boolean isExist(String uuid);
+    protected abstract boolean isExist(E ctx);
 
     @Override
     public void save(Resume resume) {
         logger.info("Save resume uuid = " + resume.getUuid());
-        if (isExist(resume.getUuid())) {
+        E ctx = getContext(resume.getUuid());
+        if (isExist(ctx)) {
             throw new DataBaseCVException("Resume has already present uuid = " + resume.getUuid(), resume);
         }
-        doSave(resume);
+        doSave(ctx, resume);
     }
 
-    protected abstract void doSave(Resume resume);
+    protected abstract void doSave(E ctx, Resume resume);
 
     @Override
     public void update(Resume resume) {
         logger.info("Update resume with uuid = " + resume.getUuid());
-        if (!isExist(resume.getUuid())) {
+        E ctx = getContext(resume.getUuid());
+        if (!isExist(ctx)) {
             throw new DataBaseCVException("Resume with uuid = " + resume.getUuid() + " is't exist", resume);
         }
-        doUpdate(resume);
+        doUpdate(ctx, resume);
     }
 
-    protected abstract void doUpdate(Resume resume);
+    protected abstract void doUpdate(E ctx, Resume resume);
 
     @Override
     public Resume load(String uuid) {
         logger.info("Load resume with uuid = " + uuid);
-        if (!isExist(uuid)) {
+        E ctx = getContext(uuid);
+        if (!isExist(ctx)) {
             throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
         }
-        return doLoad(uuid);
+        return doLoad(ctx, uuid);
     }
 
-    protected abstract Resume doLoad(String uuid);
+    protected abstract Resume doLoad(E ctx, String uuid);
 
     @Override
     public void delete(String uuid) {
         logger.info("Delete resume with uuid = " + uuid);
-        if (!isExist(uuid)) {
+        E ctx = getContext(uuid);
+        if (!isExist(ctx)) {
             throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
         }
-        doDelete(uuid);
+        doDelete(ctx, uuid);
     }
 
-    protected abstract void doDelete(String uuid);
+    protected abstract void doDelete(E ctx, String uuid);
 
     @Override
     public Collection<Resume> getAllSorted() {
@@ -85,8 +91,6 @@ public abstract class AbstractStorage implements IStorage {
     }
 
     protected abstract int doSize();
-
-
 
 
 }

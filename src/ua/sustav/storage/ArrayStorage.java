@@ -9,11 +9,16 @@ import java.util.*;
  * Created by SUSTAVOV
  * on 15.09.2017.
  */
-public class ArrayStorage extends AbstractStorage {
+public class ArrayStorage extends AbstractStorage<Integer> {
     private static final int LIMIT = 100;
     private int size;
 
     private Resume[] array = new Resume[LIMIT];
+
+    @Override
+    protected Integer getContext(String uuid) {
+        return findIndex(uuid);
+    }
 
     @Override
     protected void doClear() {
@@ -22,34 +27,32 @@ public class ArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(String uuid) {
-        return findIndex(uuid) != -1;
+    protected boolean isExist(Integer ctx) {
+        return ctx != -1;
     }
 
     @Override
-    protected void doSave(Resume resume) {
+    protected void doSave(Integer ctx, Resume resume) {
         checkCapacity(size);
         array[size++] = resume;
     }
 
     @Override
-    protected void doUpdate(Resume resume) {
-        int idx = findIndex(resume.getUuid());
-        array[idx] = resume;
+    protected void doUpdate(Integer ctx, Resume resume) {
+        array[ctx] = resume;
     }
 
     @Override
-    protected Resume doLoad(String uuid) {
-        int idx = findIndex(uuid);
-        return array[idx];
+    protected Resume doLoad(Integer ctx, String uuid) {
+        return array[ctx];
     }
 
     @Override
-    protected void doDelete(String uuid) {
-        int idx = findIndex(uuid);
-        System.arraycopy(array, idx + 1, array, idx, size - idx - 1);
+    protected void doDelete(Integer ctx, String uuid) {
+        System.arraycopy(array, ctx + 1, array, ctx, size - ctx - 1);
         array[--size] = null;
     }
+
 
     @Override
     protected List<Resume> doSorted() {
