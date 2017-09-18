@@ -23,12 +23,7 @@ public class ArrayStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (array[i] != null && array[i].getUuid().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
+        return findIndex(uuid) != -1;
     }
 
     @Override
