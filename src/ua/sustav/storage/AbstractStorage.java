@@ -4,6 +4,8 @@ import ua.sustav.DataBaseCVException;
 import ua.sustav.model.Resume;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -69,10 +71,12 @@ public abstract class AbstractStorage implements IStorage {
     @Override
     public Collection<Resume> getAllSorted() {
         logger.info("Sorted array of resumes.");
-        return doSorted();
+        List<Resume> list = doSorted();
+        Collections.sort(list);
+        return list;
     }
 
-    protected abstract Collection<Resume> doSorted();
+    protected abstract List<Resume> doSorted();
 
     @Override
     public int size() {

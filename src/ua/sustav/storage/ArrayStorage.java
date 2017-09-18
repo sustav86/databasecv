@@ -13,7 +13,7 @@ public class ArrayStorage extends AbstractStorage {
     private static final int LIMIT = 100;
     private int size;
 
-    protected Resume[] array = new Resume[LIMIT];
+    private Resume[] array = new Resume[LIMIT];
 
     @Override
     protected void doClear() {
@@ -29,7 +29,6 @@ public class ArrayStorage extends AbstractStorage {
     @Override
     protected void doSave(Resume resume) {
         checkCapacity(size);
-        int idx = findIndex(resume.getUuid());
         array[size++] = resume;
     }
 
@@ -53,14 +52,14 @@ public class ArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Collection<Resume> doSorted() {
+    protected List<Resume> doSorted() {
         List<Resume> listOfResume = Arrays.asList(Arrays.copyOf(array, size));
-        listOfResume.sort((o1, o2) -> {
-            if (o1 != null && o2 != null) {
-                return o1.compareTo(o2);
-            }
-            return 0;
-        });
+//        listOfResume.sort((o1, o2) -> {
+//            if (o1 != null && o2 != null) {
+//                return o1.compareTo(o2);
+//            }
+//            return 0;
+//        });
 
         return listOfResume;
     }

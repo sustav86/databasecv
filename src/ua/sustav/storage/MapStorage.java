@@ -2,9 +2,7 @@ package ua.sustav.storage;
 
 import ua.sustav.model.Resume;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SUSTAVOV on 18.09.2017.
@@ -43,8 +41,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Collection<Resume> doSorted() {
-        return null;
+    protected List<Resume> doSorted() {
+        return new ArrayList<>(mapOfResume.values());
     }
 
     @Override
