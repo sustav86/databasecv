@@ -1,8 +1,6 @@
 package ua.sustav.model;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by SUSTAVOV
@@ -13,7 +11,7 @@ public class Resume implements Comparable<Resume> {
     private String fullName;
     private String location;
     private String homePage;
-    private List<Contact> contacts = new LinkedList<>();
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private List<Section> sections = new LinkedList<>();
 
     public Resume() {
@@ -48,8 +46,8 @@ public class Resume implements Comparable<Resume> {
         sections.add(section);
     }
 
-    public void addContact(Contact contact) {
-        contacts.add(contact);
+    public void addContact(ContactType type, String contact) {
+        contacts.put(type, contact);
     }
 
     public String getUuid() {
@@ -68,7 +66,7 @@ public class Resume implements Comparable<Resume> {
         return homePage;
     }
 
-    public List<Contact> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
 
