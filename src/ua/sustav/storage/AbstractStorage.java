@@ -57,10 +57,10 @@ public abstract class AbstractStorage<E> implements IStorage {
         if (!isExist(ctx)) {
             throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
         }
-        return doLoad(ctx, uuid);
+        return doLoad(ctx);
     }
 
-    protected abstract Resume doLoad(E ctx, String uuid);
+    protected abstract Resume doLoad(E ctx);
 
     @Override
     public void delete(String uuid) {
@@ -69,10 +69,10 @@ public abstract class AbstractStorage<E> implements IStorage {
         if (!isExist(ctx)) {
             throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
         }
-        doDelete(ctx, uuid);
+        doDelete(ctx);
     }
 
-    protected abstract void doDelete(E ctx, String uuid);
+    protected abstract void doDelete(E ctx);
 
     @Override
     public Collection<Resume> getAllSorted() {

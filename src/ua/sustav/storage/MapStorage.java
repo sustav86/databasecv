@@ -36,13 +36,13 @@ public class MapStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected Resume doLoad(String ctx, String uuid) {
-        return mapOfResume.get(uuid);
+    protected Resume doLoad(String ctx) {
+        return mapOfResume.get(ctx);
     }
 
     @Override
-    protected void doDelete(String ctx, String uuid) {
-        mapOfResume.remove(uuid);
+    protected void doDelete(String ctx) {
+        mapOfResume.remove(ctx);
     }
 
     @Override

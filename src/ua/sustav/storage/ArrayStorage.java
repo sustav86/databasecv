@@ -43,12 +43,12 @@ public class ArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Resume doLoad(Integer ctx, String uuid) {
+    protected Resume doLoad(Integer ctx) {
         return array[ctx];
     }
 
     @Override
-    protected void doDelete(Integer ctx, String uuid) {
+    protected void doDelete(Integer ctx) {
         System.arraycopy(array, ctx + 1, array, ctx, size - ctx - 1);
         array[--size] = null;
     }
