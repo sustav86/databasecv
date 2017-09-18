@@ -92,4 +92,5 @@ public class Resume implements Comparable<Resume> {
     public void setHomePage(String homePage) {
         this.homePage = homePage;
     }
+
 }
