@@ -14,6 +14,12 @@ public class Resume implements Comparable<Resume> {
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
+    public static final Resume EMPTY;
+
+    static {
+        EMPTY = new Resume();
+    }
+
     public Resume() {
     }
 
