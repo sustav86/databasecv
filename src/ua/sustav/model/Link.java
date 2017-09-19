@@ -5,6 +5,8 @@ package ua.sustav.model;
  *  on 14.09.2017.
  */
 public class Link {
+    static final long serialVersionUID = 1L;
+
     public static Link EMPTY = new Link();
     private final String name;
     private final String url;

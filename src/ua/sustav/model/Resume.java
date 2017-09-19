@@ -1,12 +1,15 @@
 package ua.sustav.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    static final long serialVersionUID = 1L;
+
     private String uuid;
     private String fullName;
     private String location;
