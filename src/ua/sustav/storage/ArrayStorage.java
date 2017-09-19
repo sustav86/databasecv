@@ -55,7 +55,7 @@ public class ArrayStorage extends AbstractStorage<Integer> {
 
 
     @Override
-    protected List<Resume> doSorted() {
+    protected List<Resume> doGetAll() {
         List<Resume> listOfResume = Arrays.asList(Arrays.copyOf(array, size));
 //        listOfResume.sort((o1, o2) -> {
 //            if (o1 != null && o2 != null) {

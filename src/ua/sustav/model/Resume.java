@@ -114,4 +114,23 @@ public class Resume implements Comparable<Resume>, Serializable {
         this.homePage = homePage;
     }
 
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void addObjective(String values) {
+        addSection(SectionType.OBJECTIVE, new TextSection(values));
+    }
+
+    public void addMultiTextSection(SectionType type, String... values) {
+        addSection(type, new MultiTextSection(values));
+    }
 }

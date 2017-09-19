@@ -77,12 +77,12 @@ public abstract class AbstractStorage<E> implements IStorage {
     @Override
     public Collection<Resume> getAllSorted() {
         logger.info("Sorted array of resumes.");
-        List<Resume> list = doSorted();
+        List<Resume> list = doGetAll();
         Collections.sort(list);
         return list;
     }
 
-    protected abstract List<Resume> doSorted();
+    protected abstract List<Resume> doGetAll();
 
     @Override
     public int size() {

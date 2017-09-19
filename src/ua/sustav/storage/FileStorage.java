@@ -1,12 +1,12 @@
 package ua.sustav.storage;
 
 import ua.sustav.DataBaseCVException;
-import ua.sustav.model.ContactType;
 import ua.sustav.model.Resume;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by SUSTAVOV on 19.09.2017.
@@ -17,7 +17,7 @@ public abstract class FileStorage extends AbstractStorage<File> {
     public FileStorage(String path) {
         dir = new File(path);
         if (!dir.isDirectory() || !dir.canWrite()){
-            throw new IllegalArgumentException("'" + path + "'" + " is't directoru or is't writable");
+            throw new IllegalArgumentException("'" + path + "'" + " is't directory or is't writable");
         }
         
     }
@@ -68,12 +68,20 @@ public abstract class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected List<Resume> doSorted() {
-        return null;
+    protected List<Resume> doGetAll() {
+        File[] files = dir.listFiles();
+        if (files == null) return Collections.emptyList();
+        List<Resume> resumeList = new ArrayList<>(files.length);
+        for (File file: files) {
+            resumeList.add(read(file));
+        }
+        return resumeList;
     }
 
     @Override
     protected int doSize() {
-        return dir.listFiles().length;
+        File[] files = dir.listFiles();
+        if (files == null) throw new DataBaseCVException("Couldn't read directory " + dir.getAbsolutePath());
+        return files.length;
     }
 }
