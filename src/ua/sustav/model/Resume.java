@@ -20,6 +20,18 @@ public class Resume implements Comparable<Resume> {
         EMPTY = new Resume();
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public static Resume getEMPTY() {
+        return EMPTY;
+    }
+
     public Resume() {
     }
 
