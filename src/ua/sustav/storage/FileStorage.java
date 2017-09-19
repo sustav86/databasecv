@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by SUSTAVOV on 19.09.2017.
  */
-public class FileStorage extends AbstractStorage<File> {
+public abstract class FileStorage extends AbstractStorage<File> {
     private File dir;
 
     public FileStorage(String path) {
@@ -46,30 +46,9 @@ public class FileStorage extends AbstractStorage<File> {
         write(file, resume);
     }
 
-    protected void write(File file, Resume resume) {
-        try(DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-            dos.writeUTF(resume.getFullName());
-            dos.writeUTF(resume.getLocation());
-            dos.writeUTF(resume.getHomePage());
-            for (Map.Entry<ContactType, String> entry: resume.getContacts().entrySet()) {
-                dos.writeInt(entry.getKey().ordinal());
-                dos.writeUTF(entry.getValue());
-            }
-        } catch (IOException e) {
-            throw new DataBaseCVException("Can't open file to write " + file.getAbsolutePath(), resume, e);
-        }
-    }
+    protected abstract void write(File file, Resume resume);
 
-    protected Resume read(File file) {
-        Resume result = new Resume();
-        try(DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-
-        } catch (IOException e) {
-            throw new DataBaseCVException("Can't open file to read " + file.getAbsolutePath(), e);
-        }
-
-        return result;
-    }
+    protected abstract Resume read(File file);
 
     @Override
     protected void doUpdate(File file, Resume resume) {
