@@ -7,6 +7,7 @@ import java.io.Serializable;
  *  on 14.09.2017.
  */
 public class Link implements Serializable {
+    static final long serialVersionUID = 1L;
 
     public static Link EMPTY = new Link();
     private final String name;

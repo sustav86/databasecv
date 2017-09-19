@@ -1,5 +1,6 @@
 package ua.sustav.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Created by SUSTAVOV on 19.09.2017.
  */
-public class MultiTextSection extends Section {
+public class MultiTextSection extends Section implements Serializable {
     static final long serialVersionUID = 1L;
 
     private List<String> values;

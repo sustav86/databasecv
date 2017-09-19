@@ -13,21 +13,19 @@ public class SerializeFileStorage extends FileStorage {
         super(path);
     }
 
-    protected void write(File file, Resume resume) {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-           oos.writeObject(resume);
-        }catch (IOException e) {
-            throw new DataBaseCVException("Can't open file to serialize " + file.getAbsolutePath(), resume, e);
+    @Override
+    protected void write(OutputStream os, Resume resume) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
+            oos.writeObject(resume);
         }
     }
 
-    protected Resume read(File file) {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+    @Override
+    protected Resume read(InputStream is) throws IOException {
+        try(ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
-        } catch (IOException e) {
-            throw new DataBaseCVException("Can't open file to read " + file.getAbsolutePath(), e);
         } catch (ClassNotFoundException e) {
-            throw new DataBaseCVException("Can't cast serialize file to Resume " + file.getAbsolutePath(), e);
+            throw new DataBaseCVException("Can't cast serialize file to Resume ", e);
         }
     }
 

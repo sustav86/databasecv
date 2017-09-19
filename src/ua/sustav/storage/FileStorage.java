@@ -46,9 +46,25 @@ public abstract class FileStorage extends AbstractStorage<File> {
         write(file, resume);
     }
 
-    protected abstract void write(File file, Resume resume);
+    protected void write(File file, Resume resume) {
+        try {
+            write(new FileOutputStream(file), resume);
+        }catch (IOException e) {
+            throw new DataBaseCVException("Can't open file to serialize " + file.getAbsolutePath(), resume, e);
+        }
+    }
 
-    protected abstract Resume read(File file);
+    protected Resume read(File file) {
+        try {
+            return read(new FileInputStream(file));
+        } catch (IOException e) {
+            throw new DataBaseCVException("Can't open file to read " + file.getAbsolutePath(), e);
+        }
+    }
+
+    protected abstract void write(OutputStream os, Resume resume) throws IOException;
+
+    protected abstract Resume read(InputStream is) throws IOException;
 
     @Override
     protected void doUpdate(File file, Resume resume) {

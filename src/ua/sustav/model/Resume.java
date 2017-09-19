@@ -55,7 +55,12 @@ public class Resume implements Comparable<Resume>, Serializable {
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid);
+        if (uuid != null ? !uuid.equals(resume.uuid) : resume.uuid != null) return false;
+        if (fullName != null ? !fullName.equals(resume.fullName) : resume.fullName != null) return false;
+        if (location != null ? !location.equals(resume.location) : resume.location != null) return false;
+        if (homePage != null ? !homePage.equals(resume.homePage) : resume.homePage != null) return false;
+        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
+        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
     }
 
     @Override
@@ -126,8 +131,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         this.location = location;
     }
 
-    public void addObjective(String values) {
-        addSection(SectionType.OBJECTIVE, new TextSection(values));
+    public void addObjective(String value) {
+        addSection(SectionType.OBJECTIVE, new TextSection(value));
     }
 
     public void addMultiTextSection(SectionType type, String... values) {
