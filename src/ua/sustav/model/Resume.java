@@ -48,13 +48,29 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public Resume(String uuid, String fullName, String location) {
-        Objects.requireNonNull(uuid, "null uuid");
-        Objects.requireNonNull(fullName, "null fullName");
-        Objects.requireNonNull(location, "null location");
+//        Objects.requireNonNull(uuid, "null uuid");
+//        Objects.requireNonNull(fullName, "null fullName");
+//        Objects.requireNonNull(location, "null location");
         this.uuid = uuid;
         this.fullName = fullName;
         this.location = location;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Resume resume = (Resume) o;
+//
+//        if (uuid != null ? !uuid.equals(resume.uuid) : resume.uuid != null) return false;
+//        if (fullName != null ? !fullName.equals(resume.fullName) : resume.fullName != null) return false;
+//        if (location != null ? !location.equals(resume.location) : resume.location != null) return false;
+//        if (homePage != null ? !homePage.equals(resume.homePage) : resume.homePage != null) return false;
+//        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
+//        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
+//    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -66,9 +82,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         if (uuid != null ? !uuid.equals(resume.uuid) : resume.uuid != null) return false;
         if (fullName != null ? !fullName.equals(resume.fullName) : resume.fullName != null) return false;
         if (location != null ? !location.equals(resume.location) : resume.location != null) return false;
-        if (homePage != null ? !homePage.equals(resume.homePage) : resume.homePage != null) return false;
-        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
-        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
+        return homePage != null ? homePage.equals(resume.homePage) : resume.homePage == null;
     }
 
     @Override

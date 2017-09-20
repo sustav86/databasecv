@@ -1,7 +1,10 @@
 package ua.sustav.model;
 
+import ua.sustav.util.LocalDateAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -15,8 +18,8 @@ import java.util.*;
 public class Organization implements Serializable {
     static final long serialVersionUID = 1L;
 
-    private String url;
-    private String name;
+    private String url = "";
+    private String name = "";
     private List<Period> periods = new LinkedList<>();
     private Link link = Link.EMPTY;
 
@@ -60,7 +63,9 @@ public class Organization implements Serializable {
         static final long serialVersionUID = 1L;
 
         public static final LocalDate NOW = LocalDate.of(3000, 1, 1);
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endDate;
         private String position;
         private String content;

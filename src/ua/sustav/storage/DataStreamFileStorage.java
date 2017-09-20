@@ -145,7 +145,7 @@ public class DataStreamFileStorage extends FileStorage {
     }
 
     public void writeLocalDate(DataOutputStream dos, LocalDate localDate) throws IOException {
-        Objects.requireNonNull(localDate, "null localDate");
+//        Objects.requireNonNull(localDate, "null localDate");
         dos.writeInt(localDate.getYear());
         dos.writeUTF(localDate.getMonth().name());
     }

@@ -9,16 +9,16 @@ import java.io.Serializable;
 public class Link implements Serializable {
     static final long serialVersionUID = 1L;
 
-    public static Link EMPTY = new Link();
-    private final String name;
-    private final String url;
+    public static Link EMPTY = new Link("empty", "empty");
+    private String name = "";
+    private String url = "";
 
     public Link() {
-        this("", null);
+
     }
 
     public Link(String name, String url) {
-        this.name = name;
+        this.name =name;
         this.url = url;
     }
 
