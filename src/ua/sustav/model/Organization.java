@@ -1,5 +1,7 @@
 package ua.sustav.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,6 +13,7 @@ import java.util.List;
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
     private String url;
@@ -32,6 +35,7 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
         public static final LocalDate NOW = LocalDate.of(3000, 1, 1);
         private LocalDate startDate;

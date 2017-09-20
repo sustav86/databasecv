@@ -1,5 +1,7 @@
 package ua.sustav.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -8,6 +10,7 @@ import java.util.List;
 /**
  * Created by SUSTAVOV on 19.09.2017.
  */
+
 public class MultiTextSection extends Section implements Serializable {
     static final long serialVersionUID = 1L;
 
@@ -40,4 +43,6 @@ public class MultiTextSection extends Section implements Serializable {
         return values != null ? values.hashCode() : 0;
     }
 
+    public MultiTextSection() {
+    }
 }

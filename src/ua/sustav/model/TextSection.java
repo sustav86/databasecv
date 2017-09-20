@@ -39,4 +39,7 @@ public class TextSection extends Section implements Serializable {
                 "title='" + title + '\'' +
                 '}';
     }
+
+    public TextSection() {
+    }
 }

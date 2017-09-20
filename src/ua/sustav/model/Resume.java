@@ -1,5 +1,8 @@
 package ua.sustav.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.*;
 
@@ -7,6 +10,8 @@ import java.util.*;
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     static final long serialVersionUID = 1L;
 

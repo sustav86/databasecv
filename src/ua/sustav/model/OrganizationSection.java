@@ -1,5 +1,7 @@
 package ua.sustav.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,5 +17,8 @@ public class OrganizationSection extends Section implements Serializable  {
 
     public OrganizationSection(Organization... values) {
         this.values = new LinkedList<>(Arrays.asList(values));
+    }
+
+    public OrganizationSection() {
     }
 }
