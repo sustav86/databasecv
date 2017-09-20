@@ -51,4 +51,16 @@ public class Link implements Serializable {
                 ", url='" + url + '\'' +
                 '}';
     }
+
+    public static Link getEMPTY() {
+        return EMPTY;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

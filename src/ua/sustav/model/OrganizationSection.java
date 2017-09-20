@@ -21,4 +21,12 @@ public class OrganizationSection extends Section implements Serializable  {
 
     public OrganizationSection() {
     }
+
+    public OrganizationSection(List<Organization> values) {
+        this.values = values;
+    }
+
+    public List<Organization> getValues() {
+        return values;
+    }
 }

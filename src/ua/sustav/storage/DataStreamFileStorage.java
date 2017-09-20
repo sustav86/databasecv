@@ -3,10 +3,9 @@ package ua.sustav.storage;
 import ua.sustav.model.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.*;
 
 /**
  * Created by SUSTAVOV on 19.09.2017.
@@ -48,7 +47,16 @@ public class DataStreamFileStorage extends FileStorage {
                         break;
                     case EDUCATION:
                     case EXPIRIENCE:
-                        break;
+                        writeCollections(dos, ((OrganizationSection) section).getValues(), (org) -> {
+                            dos.writeUTF(org.getLink().getName());
+                            dos.writeUTF(org.getLink().getUrl());
+                            writeCollections(dos, org.getPeriods(), period -> {
+                                writeLocalDate(dos, period.getStartDate());
+                                writeLocalDate(dos, period.getEndDate());
+                                dos.writeUTF(period.getPosition());
+                                dos.writeUTF(period.getContent());
+                            });
+                        });
                     default:
                         break;
                 }
@@ -81,6 +89,17 @@ public class DataStreamFileStorage extends FileStorage {
                         break;
                     case EDUCATION:
                     case EXPIRIENCE:
+                        result.addSection(sectionType, new OrganizationSection(readList(dis, new ElementReader<Organization>() {
+                            @Override
+                            public Organization read() throws IOException {
+                                return new Organization(new Link(dis.readUTF(), dis.readUTF()), readList(dis, new ElementReader<Organization.Period>() {
+                                    @Override
+                                    public Organization.Period read() throws IOException {
+                                        return new Organization.Period(readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF());
+                                    }
+                                }));
+                            }
+                        })));
                         break;
                     default:
                         break;
@@ -123,5 +142,15 @@ public class DataStreamFileStorage extends FileStorage {
            list.add(reader.read());
         }
         return list;
+    }
+
+    public void writeLocalDate(DataOutputStream dos, LocalDate localDate) throws IOException {
+        Objects.requireNonNull(localDate, "null localDate");
+        dos.writeInt(localDate.getYear());
+        dos.writeUTF(localDate.getMonth().name());
+    }
+
+    public LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), Month.valueOf(dis.readUTF()), 1);
     }
 }
