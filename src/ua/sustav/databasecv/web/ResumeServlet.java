@@ -1,4 +1,4 @@
-package ua.sustav.web;
+package ua.sustav.databasecv.web;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

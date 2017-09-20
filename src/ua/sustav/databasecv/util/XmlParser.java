@@ -1,6 +1,6 @@
-package ua.sustav.util;
+package ua.sustav.databasecv.util;
 
-import ua.sustav.DataBaseCVException;
+import ua.sustav.databasecv.DataBaseCVException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

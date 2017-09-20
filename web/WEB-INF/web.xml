@@ -6,7 +6,7 @@
     
     <servlet>
         <servlet-name>resumeServlet</servlet-name>
-        <servlet-class>ua.sustav.web.ResumeServlet</servlet-class>
+        <servlet-class>ua.sustav.databasecv.web.ResumeServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

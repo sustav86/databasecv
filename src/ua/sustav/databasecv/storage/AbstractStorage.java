@@ -1,7 +1,7 @@
-package ua.sustav.storage;
+package ua.sustav.databasecv.storage;
 
-import ua.sustav.DataBaseCVException;
-import ua.sustav.model.Resume;
+import ua.sustav.databasecv.DataBaseCVException;
+import ua.sustav.databasecv.model.Resume;
 
 import java.util.Collection;
 import java.util.Collections;

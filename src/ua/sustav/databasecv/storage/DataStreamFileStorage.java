@@ -1,6 +1,6 @@
-package ua.sustav.storage;
+package ua.sustav.databasecv.storage;
 
-import ua.sustav.model.*;
+import ua.sustav.databasecv.model.*;
 
 import java.io.*;
 import java.time.LocalDate;

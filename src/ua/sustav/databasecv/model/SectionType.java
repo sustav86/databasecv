@@ -1,4 +1,4 @@
-package ua.sustav.model;
+package ua.sustav.databasecv.model;
 
 import java.io.Serializable;
 

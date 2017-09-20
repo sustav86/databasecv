@@ -1,7 +1,7 @@
-package ua.sustav.storage;
+package ua.sustav.databasecv.storage;
 
-import ua.sustav.model.*;
-import ua.sustav.util.XmlParser;
+import ua.sustav.databasecv.model.*;
+import ua.sustav.databasecv.util.XmlParser;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

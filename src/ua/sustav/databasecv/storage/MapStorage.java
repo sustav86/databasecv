@@ -1,15 +1,14 @@
-package ua.sustav.storage;
+package ua.sustav.databasecv.storage;
 
-import ua.sustav.model.Resume;
+import ua.sustav.databasecv.model.Resume;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by SUSTAVOV on 18.09.2017.
  */
-public class ConcurrencyMapStorage extends AbstractStorage<String> {
-    private Map<String, Resume> mapOfResume = new ConcurrentHashMap<>();
+public class MapStorage extends AbstractStorage<String> {
+    private Map<String, Resume> mapOfResume = new HashMap<>();
 
     @Override
     protected String getContext(String uuid) {

@@ -1,6 +1,6 @@
-package ua.sustav.model;
+package ua.sustav.databasecv.model;
 
-import ua.sustav.util.LocalDateAdapter;
+import ua.sustav.databasecv.util.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

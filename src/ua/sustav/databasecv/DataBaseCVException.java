@@ -1,6 +1,6 @@
-package ua.sustav;
+package ua.sustav.databasecv;
 
-import ua.sustav.model.Resume;
+import ua.sustav.databasecv.model.Resume;
 
 /**
  * Created by SUSTAVOV on 16.09.2017.

@@ -1,4 +1,4 @@
-package ua.sustav.util;
+package ua.sustav.databasecv.util;
 
 import com.google.gson.Gson;
 
