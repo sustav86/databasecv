@@ -138,4 +138,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     public void addMultiTextSection(SectionType type, String... values) {
         addSection(type, new MultiTextSection(values));
     }
+
+    public void addOrganizationSection(SectionType type, Organization... organizations) {
+        addSection(type, new OrganizationSection(organizations));
+    }
 }
