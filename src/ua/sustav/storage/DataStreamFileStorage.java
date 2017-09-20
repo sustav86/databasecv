@@ -38,7 +38,7 @@ public class DataStreamFileStorage extends FileStorage {
             for (Map.Entry<SectionType, Section> entry: sections.entrySet()) {
                 SectionType type = entry.getKey();
                 Section section = entry.getValue();
-                writeString(dos, type.getTitle());
+                writeString(dos, type.name());
                 switch (type) {
                     case OBJECTIVE:
                         writeString(dos, ((TextSection)section).getTitle());
@@ -67,7 +67,7 @@ public class DataStreamFileStorage extends FileStorage {
             result.setHomePage(readString(dis));
             int contactsSize = dis.readInt();
             for (int i = 0; i < contactsSize; i++) {
-                result.addContact(ContactType.values()[dis.readInt()], readString(dis));
+                result.addContact(ContactType.VALUES[dis.readInt()], readString(dis));
             }
             final int sectionSize = dis.readInt();
             for (int i = 0; i < sectionSize; i++) {

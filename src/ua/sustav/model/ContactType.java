@@ -21,4 +21,6 @@ public enum ContactType implements Serializable {
     public String getTitle() {
         return title;
     }
+
+    public static ContactType[] VALUES = ContactType.values();
 }
