@@ -1,5 +1,6 @@
 package ua.sustav.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,8 @@ import java.util.List;
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
-public class Organization {
+public class Organization implements Serializable {
+
     private List<OrganizationPeriod> periods;
     private Link link;
 

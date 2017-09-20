@@ -1,10 +1,14 @@
 package ua.sustav.model;
 
+import java.io.Serializable;
+
 /**
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
-public class Link {
+public class Link implements Serializable {
+    static final long serialVersionUID = 1L;
+
     public static Link EMPTY = new Link();
     private final String name;
     private final String url;

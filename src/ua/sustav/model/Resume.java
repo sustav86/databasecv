@@ -1,12 +1,15 @@
 package ua.sustav.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by SUSTAVOV
  *  on 14.09.2017.
  */
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    static final long serialVersionUID = 1L;
+
     private String uuid;
     private String fullName;
     private String location;
@@ -52,7 +55,12 @@ public class Resume implements Comparable<Resume> {
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid);
+        if (uuid != null ? !uuid.equals(resume.uuid) : resume.uuid != null) return false;
+        if (fullName != null ? !fullName.equals(resume.fullName) : resume.fullName != null) return false;
+        if (location != null ? !location.equals(resume.location) : resume.location != null) return false;
+        if (homePage != null ? !homePage.equals(resume.homePage) : resume.homePage != null) return false;
+        if (contacts != null ? !contacts.equals(resume.contacts) : resume.contacts != null) return false;
+        return sections != null ? sections.equals(resume.sections) : resume.sections == null;
     }
 
     @Override
@@ -111,4 +119,23 @@ public class Resume implements Comparable<Resume> {
         this.homePage = homePage;
     }
 
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void addObjective(String value) {
+        addSection(SectionType.OBJECTIVE, new TextSection(value));
+    }
+
+    public void addMultiTextSection(SectionType type, String... values) {
+        addSection(type, new MultiTextSection(values));
+    }
 }

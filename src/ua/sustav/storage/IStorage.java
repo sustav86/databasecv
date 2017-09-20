@@ -5,7 +5,8 @@ import ua.sustav.model.Resume;
 import java.util.Collection;
 
 /**
- * Created by SUSTAVOV on 15.09.2017.
+ * Created by SUSTAVOV
+ * on 15.09.2017.
  */
 public interface IStorage {
     void clear();
