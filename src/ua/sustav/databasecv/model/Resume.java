@@ -48,12 +48,17 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public Resume(String uuid, String fullName, String location) {
+        this(uuid, fullName, location, "");
+    }
+
+    public Resume(String uuid, String fullName, String location, String homePage) {
 //        Objects.requireNonNull(uuid, "null uuid");
 //        Objects.requireNonNull(fullName, "null fullName");
 //        Objects.requireNonNull(location, "null location");
         this.uuid = uuid;
         this.fullName = fullName;
         this.location = location;
+        this.homePage = homePage;
     }
 
 //    @Override

@@ -1,6 +1,7 @@
 package ua.sustav.databasecv;
 
 import ua.sustav.databasecv.storage.IStorage;
+import ua.sustav.databasecv.storage.SqlStorage;
 import ua.sustav.databasecv.storage.XmlStorage;
 
 import java.io.IOException;
@@ -33,11 +34,12 @@ public class DataBaseCVConfig {
 
             properties = new Properties();
             properties.load(dbcvIs);
-            storage = new XmlStorage(properties.getProperty("storage.dir"));
-            properties.getProperty("db.url");
-            properties.getProperty("db.user");
-            properties.getProperty("db.password");
+//            storage = new XmlStorage(properties.getProperty("storage.dir"));
+            String dbUrl = properties.getProperty("db.url");
+            String dbUser = properties.getProperty("db.user");
+            String dbPassword = properties.getProperty("db.password");
 
+            storage = new SqlStorage(dbUrl, dbUser, dbPassword);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
