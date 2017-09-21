@@ -4,6 +4,7 @@
 <%@ page import="ua.sustav.databasecv.storage.MapStorage" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.sustav.databasecv.model.Resume" %>
+<%@ page import="static ua.sustav.databasecv.web.ResumeServlet.storage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>--%>
@@ -40,7 +41,6 @@
                     </tr>
 
                     <%
-                        XmlStorage storage = new XmlStorage("C:\\Users\\SUSTAVOV\\Documents\\myProject\\databasecv\\file_storage");
                         Collection<Resume> resumeList = storage.getAllSorted();
                         request.setAttribute("resumeList", resumeList);
                     %>
