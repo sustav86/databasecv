@@ -1,8 +1,15 @@
 package ua.sustav.databasecv.web;
 
+import com.sun.org.apache.regexp.internal.RE;
+import ua.sustav.databasecv.DataBaseCVConfig;
+import ua.sustav.databasecv.model.ContactType;
 import ua.sustav.databasecv.model.Resume;
+import ua.sustav.databasecv.storage.IStorage;
 import ua.sustav.databasecv.storage.XmlStorage;
+import ua.sustav.databasecv.util.Util;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,10 +20,36 @@ import java.io.Writer;
  * Created by SUSTAVOV on 20.09.2017.
  */
 public class ResumeServlet extends HttpServlet {
-    public static XmlStorage storage = new XmlStorage("C:\\Users\\SUSTAVOV\\Documents\\myProject\\databasecv\\file_storage");
+    private IStorage storage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String name = request.getParameter("name");
+        String location = request.getParameter("location");
+        Resume resume = Util.isEmpty(uuid) ? new Resume(name, location) : storage.load(uuid);
 
+        resume.setFullName(name);
+        resume.setLocation(location);
+        resume.setHomePage(request.getParameter("home_page"));
+
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value == null || value.isEmpty()) {
+                resume.removeContact(type);
+            } else {
+                resume.addContact(type, value);
+            }
+
+        }
+
+        if (Util.isEmpty(uuid)) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
+
+        response.sendRedirect("list");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -48,5 +81,17 @@ public class ResumeServlet extends HttpServlet {
 
         request.setAttribute("resume", resume);
         request.getRequestDispatcher("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp").forward(request, response);
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        storage = DataBaseCVConfig.get().getStorage();
+    }
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        storage = DataBaseCVConfig.get().getStorage();
     }
 }

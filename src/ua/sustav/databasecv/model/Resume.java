@@ -164,4 +164,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     public void addOrganizationSection(SectionType type, Organization... organizations) {
         addSection(type, new OrganizationSection(organizations));
     }
+
+    public void removeContact(ContactType type) {
+        contacts.remove(type);
+    }
 }

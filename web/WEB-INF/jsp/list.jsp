@@ -4,7 +4,8 @@
 <%@ page import="ua.sustav.databasecv.storage.MapStorage" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="ua.sustav.databasecv.model.Resume" %>
-<%@ page import="static ua.sustav.databasecv.web.ResumeServlet.storage" %>
+<%@ page import="ua.sustav.databasecv.web.ResumeServlet" %>
+<%@ page import="ua.sustav.databasecv.DataBaseCVConfig" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>--%>
@@ -17,7 +18,7 @@
     <title>Список резюме</title>
 </head>
 <body>
-
+<jsp:include page="fragments/header.jsp"/>
 <section>
 
     <table>
@@ -41,7 +42,7 @@
                     </tr>
 
                     <%
-                        Collection<Resume> resumeList = storage.getAllSorted();
+                        Collection<Resume> resumeList = DataBaseCVConfig.get().getStorage().getAllSorted();
                         request.setAttribute("resumeList", resumeList);
                     %>
 
@@ -64,6 +65,6 @@
     </table>
 
 </section>
-
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

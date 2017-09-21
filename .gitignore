@@ -5,4 +5,6 @@ test
 .gitignore
 file_storage
 lib
+*.log
+
 
