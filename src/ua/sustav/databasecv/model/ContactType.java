@@ -8,8 +8,18 @@ import java.io.Serializable;
  */
 public enum ContactType implements Serializable {
     TELEPHON("Телефон"),
-    SKYPE("Skype"),
-    EMAIL("Почта"),
+    SKYPE("Skype") {
+        @Override
+        public String toHtml(String value) {
+            return "<a href='skype:" + value + "'>" + value + "</a>";
+        }
+    },
+    EMAIL("Почта") {
+        @Override
+        public String toHtml(String value) {
+            return "<a href='mailto:" + value + "'>" + value + "</a>";
+        }
+    },
     LINKEDIN("LinkedIn");
 
     private String title;
@@ -23,4 +33,8 @@ public enum ContactType implements Serializable {
     }
 
     public static ContactType[] VALUES = ContactType.values();
+
+    public String toHtml(String value) {
+        return title + ": " + value;
+    }
 }
