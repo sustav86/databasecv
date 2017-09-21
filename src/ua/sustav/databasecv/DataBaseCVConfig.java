@@ -5,6 +5,7 @@ import ua.sustav.databasecv.storage.XmlStorage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 import java.util.logging.LogManager;
 
 /**
@@ -14,6 +15,7 @@ public class DataBaseCVConfig {
     private static final DataBaseCVConfig INSTANCE = new DataBaseCVConfig();
 
     private IStorage storage;
+    private Properties properties;
 
     public static DataBaseCVConfig get() {
         return INSTANCE;
@@ -24,9 +26,18 @@ public class DataBaseCVConfig {
     }
 
     private DataBaseCVConfig() {
-        try(InputStream is = getClass().getClassLoader().getResourceAsStream("logging.properties")) {
-//            LogManager.getLogManager().readConfiguration(is);
-            storage = new XmlStorage("C:\\Users\\SUSTAVOV\\Documents\\myProject\\databasecv\\file_storage");
+        try(InputStream is = getClass().getClassLoader().getResourceAsStream("logging.properties");
+            InputStream dbcvIs = getClass().getClassLoader().getResourceAsStream("databasecv.properties")) {
+
+            LogManager.getLogManager().readConfiguration(is);
+
+            properties = new Properties();
+            properties.load(dbcvIs);
+            storage = new XmlStorage(properties.getProperty("storage.dir"));
+            properties.getProperty("db.url");
+            properties.getProperty("db.user");
+            properties.getProperty("db.password");
+
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
