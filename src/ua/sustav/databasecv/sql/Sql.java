@@ -34,4 +34,20 @@ public class Sql {
             throw new DataBaseCVException("Connection fails to DB " + sql, e);
         }
     }
+
+    public <T> T execute(SqlTransaction<T> executor) {
+        try(Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T res = executor.execute(connection);
+                connection.commit();
+                return res;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new DataBaseCVException("Transaction failed", e);
+        }
+    }
 }

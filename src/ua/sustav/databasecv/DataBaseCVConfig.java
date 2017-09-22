@@ -34,12 +34,12 @@ public class DataBaseCVConfig {
 
             properties = new Properties();
             properties.load(dbcvIs);
-            storage = new XmlStorage(properties.getProperty("storage.dir"));
+//            storage = new XmlStorage(properties.getProperty("storage.dir"));
             String dbUrl = properties.getProperty("db.url");
             String dbUser = properties.getProperty("db.user");
             String dbPassword = properties.getProperty("db.password");
 
-//            storage = new SqlStorage(dbUrl, dbUser, dbPassword);
+            storage = new SqlStorage(dbUrl, dbUser, dbPassword);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

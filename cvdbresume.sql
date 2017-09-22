@@ -19,4 +19,17 @@ CREATE TABLE contact (
 );
 
 
+CREATE TABLE text_section (
+  id SERIAL,
+  resume_uuid char(36) not null,
+  type VARCHAR NOT NULL ,
+  values VARCHAR NOT NULL ,
+  local_date DATE,
+
+  CONSTRAINT text_section_pkey PRIMARY KEY (id),
+  FOREIGN KEY (resume_uuid) REFERENCES resume (uuid) ON DELETE CASCADE
+
+);
+
+
   CREATE UNIQUE INDEX contakc_idx ON contact USING BTREE (resume_uuid, type);

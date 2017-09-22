@@ -1,15 +1,14 @@
 package ua.sustav.databasecv.storage;
 
 import ua.sustav.databasecv.DataBaseCVException;
+import ua.sustav.databasecv.model.ContactType;
 import ua.sustav.databasecv.model.Resume;
-import ua.sustav.databasecv.sql.ConnectionFactory;
 import ua.sustav.databasecv.sql.Sql;
 import ua.sustav.databasecv.sql.SqlExecutor;
+import ua.sustav.databasecv.util.Util;
 
 import java.sql.*;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SUSTAVOV on 21.09.2017.
@@ -29,54 +28,56 @@ public class SqlStorage implements IStorage {
 
     @Override
     public void save(final Resume resume) {
-        sql.execute("INSERT INTO resume (uuid, full_name, location, home_page) VALUES (?,?,?,?)", new SqlExecutor<Void>() {
-            @Override
-            public Void execute(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setString(1, resume.getUuid());
-                preparedStatement.setString(2, resume.getFullName());
-                preparedStatement.setString(3, resume.getLocation());
-                preparedStatement.setString(4, resume.getHomePage());
-                preparedStatement.execute();
+        sql.execute(connection -> {
+            try (PreparedStatement ps = connection.prepareStatement("INSERT INTO resume (uuid, full_name, location, home_page) VALUES (?,?,?,?)")) {
 
-                return null;
+                ps.setString(1, resume.getUuid());
+                ps.setString(2, resume.getFullName());
+                ps.setString(3, resume.getLocation());
+                ps.setString(4, resume.getHomePage());
+                if (ps.executeUpdate() == 0) {
+                    throw new DataBaseCVException("Resume not found", resume);
+                }
             }
+            insertContact(connection, resume);
+            return null;
         });
     }
 
+
     @Override
     public void update(final Resume resume) {
-        sql.execute("UPDATE resume SET full_name=?, location=?, home_page=? WHERE uuid=?", new SqlExecutor<Void>() {
-            @Override
-            public Void execute(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setString(4, resume.getUuid());
-                preparedStatement.setString(1, resume.getFullName());
-                preparedStatement.setString(2, resume.getLocation());
-                preparedStatement.setString(3, resume.getHomePage());
-                if (preparedStatement.executeUpdate() == 0) {
-                    throw new DataBaseCVException("Resume not found", resume);
-                }
-
-                return null;
+        sql.execute(connection -> {
+            try (PreparedStatement ps = connection.prepareStatement("UPDATE resume SET full_name=?, location=?, home_page=? WHERE uuid=?")) {
+                ps.setString(4, resume.getUuid());
+                ps.setString(1, resume.getFullName());
+                ps.setString(2, resume.getLocation());
+                ps.setString(3, resume.getHomePage());
+                ps.execute();
             }
+            deleteContacts(connection, resume);
+            insertContact(connection, resume);
+            return null;
+
         });
     }
 
     @Override
     public Resume load(String uuid) {
-        return sql.execute("SELECT * FROM resume r WHERE r.uuid=?", new SqlExecutor<Resume>() {
-            @Override
-            public Resume execute(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setString(1, uuid);
-                ResultSet result = preparedStatement.executeQuery();
-                if (!result.next()) {
-                    throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
-                }
-                Resume resume = new Resume(uuid, result.getString("full_name"),
-                        result.getString("location"),
-                        result.getString("home_page"));
-
-                return resume;
+        return sql.execute("SELECT * FROM resume r LEFT JOIN contact c ON c.resume_uuid = r.uuid WHERE r.uuid=?", preparedStatement -> {
+            preparedStatement.setString(1, uuid);
+            ResultSet result = preparedStatement.executeQuery();
+            if (!result.next()) {
+                throw new DataBaseCVException("Resume with uuid = " + uuid + " is't exist", uuid);
             }
+            Resume resume = new Resume(uuid, result.getString("full_name"),
+                    result.getString("location"),
+                    result.getString("home_page"));
+            addContact(result, resume);
+            while (result.next()) {
+                addContact(result, resume);
+            }
+            return resume;
         });
     }
 
@@ -96,17 +97,27 @@ public class SqlStorage implements IStorage {
 
     @Override
     public Collection<Resume> getAllSorted() {
-        return sql.execute("SELECT * FROM resume ORDER BY full_name, uuid", new SqlExecutor<Collection<Resume>>() {
+        return sql.execute("SELECT * FROM resume r LEFT JOIN contact c ON r.uuid = c.resume_uuid ORDER BY full_name, uuid", new SqlExecutor<Collection<Resume>>() {
             @Override
             public Collection<Resume> execute(PreparedStatement preparedStatement) throws SQLException {
                 List<Resume> result = new LinkedList<>();
+                Map<String, Resume> map = new LinkedHashMap<>();
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
+                    String uuid = resultSet.getString("uuid");
+                    Resume resume = map.get(uuid);
+                    if (resume == null) {
+                        resume = new Resume(uuid, resultSet.getString("full_name"),
+                                resultSet.getString("location"),
+                                resultSet.getString("home_page"));
+                        map.put(uuid, resume);
+                    }
+                    addContact(resultSet, resume);
                     result.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name"),
                             resultSet.getString("location"),
                             resultSet.getString("home_page")));
                 }
-                return result;
+                return map.values();
             }
         });
     }
@@ -121,5 +132,33 @@ public class SqlStorage implements IStorage {
                 return result.getInt(1);
             }
         });
+    }
+
+    private void insertContact(Connection connection, Resume resume) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+            for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
+                ps.setString(1, resume.getUuid());
+                ps.setString(2, entry.getKey().name());
+                ps.setString(3, entry.getValue());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+    }
+
+    private void deleteContacts(Connection connection, Resume resume) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement("DELETE FROM contact WHERE resume_uuid=?")) {
+            ps.setString(1, resume.getUuid());
+            ps.execute();
+        }
+    }
+
+    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
+        String value = resultSet.getString("value");
+        if (!Util.isEmpty(value)) {
+
+            ContactType contactType = ContactType.valueOf(resultSet.getString("type"));
+            resume.addContact(contactType, value);
+        }
     }
 }

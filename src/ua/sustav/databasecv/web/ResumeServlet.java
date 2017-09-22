@@ -101,9 +101,9 @@ public class ResumeServlet extends HttpServlet {
         storage = DataBaseCVConfig.get().getStorage();
     }
 
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        storage = DataBaseCVConfig.get().getStorage();
-    }
+//    @Override
+//    public void init() throws ServletException {
+//        super.init();
+//        storage = DataBaseCVConfig.get().getStorage();
+//    }
 }
