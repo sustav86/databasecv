@@ -4,6 +4,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import ua.sustav.databasecv.DataBaseCVConfig;
 import ua.sustav.databasecv.model.ContactType;
 import ua.sustav.databasecv.model.Resume;
+import ua.sustav.databasecv.model.SectionType;
 import ua.sustav.databasecv.storage.IStorage;
 import ua.sustav.databasecv.storage.XmlStorage;
 import ua.sustav.databasecv.util.Util;
@@ -41,6 +42,17 @@ public class ResumeServlet extends HttpServlet {
                 resume.addContact(type, value);
             }
 
+        }
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            if (type.getHtmlType() == SectionHtmlType.ORGANIZATION) {
+                continue;
+            }
+            if (value == null || value.isEmpty()) {
+               resume.getSections().remove(type);
+            }else {
+                resume.addSection(type, type.getHtmlType().createSection(value));
+            }
         }
 
         if (Util.isEmpty(uuid)) {

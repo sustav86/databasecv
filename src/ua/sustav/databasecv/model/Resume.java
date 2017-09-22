@@ -173,4 +173,5 @@ public class Resume implements Comparable<Resume>, Serializable {
     public void removeContact(ContactType type) {
         contacts.remove(type);
     }
+
 }

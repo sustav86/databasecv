@@ -1,4 +1,5 @@
 <%@ page import="ua.sustav.databasecv.model.ContactType" %>
+<%@ page import="ua.sustav.databasecv.model.SectionType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,7 +39,10 @@
                 <dd><input type="text" name="${type.name()}" size="30" value="${resume.getContact(type)}"></dd>
             </dl>
         </c:forEach>
-
+        <c:forEach var="typeSection" items="<%=SectionType.values()%>">
+            <h2><a>${typeSection.title}</a></h2>
+            ${type.htmlType.toHtml(resume.getSection(typeSection), typeSection)}
+        </c:forEach>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
     </form>

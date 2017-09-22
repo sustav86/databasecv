@@ -1,5 +1,7 @@
 package ua.sustav.databasecv.model;
 
+import ua.sustav.databasecv.web.SectionHtmlType;
+
 import java.io.Serializable;
 
 /**
@@ -7,16 +9,18 @@ import java.io.Serializable;
  *  on 14.09.2017.
  */
 public enum SectionType implements Serializable {
-    OBJECTIVE("ПОЗИЦИЯ"),
-    ACHIEVEMENTS("ДОСТИЖЕНИЯ"),
-    QUALIFICATION("КВАЛИФИКАЦИЯ"),
-    EXPIRIENCE("ОПЫТ РАБОТЫ"),
-    EDUCATION("ОБРАЗОВАНИЕ");
+    OBJECTIVE("ПОЗИЦИЯ", SectionHtmlType.TEXT),
+    ACHIEVEMENTS("ДОСТИЖЕНИЯ", SectionHtmlType.MULTI_TEXT),
+    QUALIFICATION("КВАЛИФИКАЦИЯ", SectionHtmlType.MULTI_TEXT),
+    EXPIRIENCE("ОПЫТ РАБОТЫ", SectionHtmlType.ORGANIZATION),
+    EDUCATION("ОБРАЗОВАНИЕ", SectionHtmlType.ORGANIZATION);
 
     private String title;
+    private SectionHtmlType htmlType;
 
-    SectionType(String title) {
+    SectionType(String title, SectionHtmlType htmlType) {
         this.title = title;
+        this.htmlType = htmlType;
     }
 
     public String getTitle() {
@@ -28,5 +32,9 @@ public enum SectionType implements Serializable {
         return "SectionType{" +
                 "title='" + title + '\'' +
                 '}';
+    }
+
+    public SectionHtmlType getHtmlType() {
+        return htmlType;
     }
 }

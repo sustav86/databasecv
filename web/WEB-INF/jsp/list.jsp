@@ -18,7 +18,7 @@
     <title>Список резюме</title>
 </head>
 <body>
-<%--<jsp:include page="fragments/header.jsp"/>--%>
+<jsp:include page="fragments/header.jsp"/>
 <section>
 
     <table>
@@ -65,6 +65,6 @@
     </table>
 
 </section>
-<%--<jsp:include page="fragments/footer.jsp"/>--%>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
